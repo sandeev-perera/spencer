@@ -12,6 +12,12 @@ class NewProduct extends Component
     use WithFileUploads;
     public $selectedSection;
     public $show;
+    public $availableColors = [
+        'white - WHT' => 'WHT',
+        'black - BLK' => 'BLK',
+        'green - GRN' => 'GRN',
+    ];
+
     public $product_id;
     public $name;
     public $description;
@@ -33,9 +39,7 @@ class NewProduct extends Component
             [
             'size' => '',
             'stock_quantity' => '',
-            'sku' => ''
             ]
-
             ]
         ];
     }
@@ -45,9 +49,7 @@ class NewProduct extends Component
         [
             'size' => '',
             'stock_quantity' => '',
-            'sku' => ''
-        ]
-        ;
+        ];
     }
 
     public function removeVariant($index)
@@ -72,9 +74,7 @@ class NewProduct extends Component
 
     public function save()
     {
-       
         Log::info("Product ID: " . $this->product_id);
-
         // Store thumbnail image
         $thumbnailPath = null;
         if ($this->thumbnail_image) {
@@ -92,30 +92,36 @@ class NewProduct extends Component
                 $color = trim(str_replace(['/', '\\', '..'], '', $variant['color'] ?? 'unknown'));
                 $variantDirectory = "products/{$this->product_id}/variants/{$color}";
                 Storage::disk('public')->makeDirectory($variantDirectory);
-                Log::info("Variant directory created: " . $variantDirectory);
                 $variantData[$index]['images'] = array_map(function ($image) use ($variantDirectory, $index) {
                     $filename = uniqid() . '.' . $image->getClientOriginalExtension();
                     $path = $image->storeAs($variantDirectory, $filename, 'public');
-                    Log::info("Variant image stored at index {$index}: " . $path);
                     return $path;
                 }, $variant['images']);
             } else {
                 Log::info("No images for variant at index {$index}");
             }
-        }
 
-        Log::info('Product Data:', [
-            'product_id' => $this->product_id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'category' => $this->category,
-            'brand' => $this->brand,
-            'thumbnail_image' => $this->thumbnail_image,
-            'base_price' => $this->base_price,
-            'variants' => $this->variants,
-            'tags' => explode(',', $this->tags),
-            'is_active' => $this->is_active,
-        ]);
+            $skuColor = $variant['color'] ?? 'unknown';
+            //Generate SKU for each subVariant
+            foreach ($variant['sub_variants'] as $subIndex => $subVariant) {
+                $variantData[$index]['sub_variants'][$subIndex]['sku'] = $skuColor . "-" . $subVariant['size'] . "-" . $this->product_id;
+            }
+        }
+        $this->variants = $variantData;
+
+        LOG::info($this->variants);
+        // Log::info('Product Data:', [
+        //     'product_id' => $this->product_id,
+        //     'name' => $this->name,
+        //     'description' => $this->description,
+        //     'category' => $this->category,
+        //     'brand' => $this->brand,
+        //     'thumbnail_image' => $this->thumbnail_image,
+        //     'base_price' => $this->base_price,
+        //     'variants' => $this->variants,
+        //     'tags' => explode(',', $this->tags),
+        //     'is_active' => $this->is_active,
+        // ]);
     }
 
 }

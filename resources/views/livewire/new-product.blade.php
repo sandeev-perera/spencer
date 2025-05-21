@@ -131,7 +131,12 @@
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
                             <label for="color_{{ $index }}" class="block text-sm text-gray-700">Color</label>
-                            <input type="text" id="color_{{ $index }}" wire:model="variants.{{ $index }}.color" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                            <select id="color_{{ $index }}" wire:model="variants.{{ $index }}.color" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                                <option value="">Select a color</option>
+                                @foreach ($availableColors as $colorOption => $skuCode)
+                                    <option value="{{ $skuCode }}">{{ $colorOption }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div>
                             <label for="images_{{ $index }}" class="block text-sm text-gray-700">Images</label>
@@ -150,10 +155,10 @@
                                 <label for="stock_quantity_{{ $index }}_{{ $subIndex }}" class="block text-sm text-gray-700">Stock Quantity</label>
                                 <input type="number" id="stock_quantity_{{ $index }}_{{ $subIndex }}" wire:model="variants.{{ $index }}.sub_variants.{{ $subIndex }}.stock_quantity" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500">
                             </div>
-                            <div>
+                            {{-- <div>
                                 <label for="sku_{{ $index }}_{{ $subIndex }}" class="block text-sm text-gray-700">SKU</label>
-                                <input type="text" id="sku_{{ $index }}_{{ $subIndex }}" wire:model="variants.{{ $index }}.sub_variants.{{ $subIndex }}.sku" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                            </div>
+                                <input type="text" id="sku_{{ $index }}_{{ $subIndex }}" wire:model="variants.{{ $index }}.sub_variants.{{ $subIndex }}.sku" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500" required>
+                            </div> --}}
                             <div>
                                 <button type="button" wire:click="removeSubVariant({{ $index }}, {{ $subIndex }})" class="bg-red-500 text-white px-2 py-1 rounded-lg mt-6">Remove Sub Variant</button>
                             </div>
