@@ -55,7 +55,7 @@
 
                     <!-- Product Image -->
                     <div class="w-full h-60 sm:h-72 flex justify-center items-center bg-gray-100">
-                        <img src="https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/30d7afaa-343b-4439-b65d-bb544c65420e/NIKE+REVOLUTION+7.png" 
+                        <img src="{{asset('storage/'.$product->thumbnail_image)}}" 
                                 alt="Product Image" class="w-full h-full object-contain">
                     </div>
 

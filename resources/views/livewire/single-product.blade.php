@@ -6,7 +6,7 @@
         <div class="flex gap-8">
             <div class="flex-1 w-1/2">
                 <div class="bg-gray-100 rounded-lg p-4 flex justify-center items-center">
-                    <img src="https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/30d7afaa-343b-4439-b65d-bb544c65420e/NIKE+REVOLUTION+7.png" alt="Image"
+                    <img src="{{asset('storage/'.$product->thumbnail_image)}}" alt="Image"
                         class="w-full h-auto max-h-[70vh] object-contain">
                 </div>
             </div>

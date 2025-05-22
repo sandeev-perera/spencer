@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
@@ -43,7 +44,6 @@ class NewProduct extends Component
             ]
         ];
     }
-
     public function addSubVariant($index){
         $this->variants[$index]["sub_variants"][]=
         [
@@ -65,7 +65,6 @@ class NewProduct extends Component
 
     public function render()
     {
-        Log::info($this->base_price);
         return view('livewire.new-product', [
             'selectedSection' => $this->selectedSection,
             'show' => $this->show
@@ -74,8 +73,29 @@ class NewProduct extends Component
 
     public function save()
     {
-        Log::info("Product ID: " . $this->product_id);
-        // Store thumbnail image
+        $exists = Product::where('product_id', (int)$this->product_id)->exists();
+        if ($exists) {
+            $this->addError('product_id', 'This Product ID is already in use.');
+            return;
+        }
+        
+        $this->validate([
+            'product_id' => 'required|numeric|unique:products,product_id',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'category' => 'required|string|max:255',
+            'brand' => 'required|string|max:50|',
+            'thumbnail_image' => 'nullable|image|max:1024',
+            'base_price' => 'required|numeric|min:0',
+            'variants.*.color' => 'required',
+            'variants.*.images' => 'array',
+            'variants.*.images.*' => 'nullable|image|max:1024',
+            'variants.*.sub_variants.*.size' => 'nullable|string',
+            'variants.*.sub_variants.*.stock_quantity' => 'nullable|numeric',
+            'tags' => 'nullable|string',
+            'is_active' => 'boolean',
+        ]);
+
         $thumbnailPath = null;
         if ($this->thumbnail_image) {
             $directory = "products/{$this->product_id}";
@@ -86,7 +106,6 @@ class NewProduct extends Component
 
         // Store variant images
         $variantData = $this->variants;
-        Log::info('Variants data:', $variantData);
         foreach ($variantData as $index => $variant) {
                 $color = $variant['color'] ?? 'unknown';
                 if (!empty($variant['images'])) {
@@ -95,7 +114,6 @@ class NewProduct extends Component
                     foreach ($variant['images'] as $imageIndex => $image) {
                         $filename = uniqid() . '.' . $image->getClientOriginalExtension();
                         $path = $image->storeAs($variantDirectory, $filename, 'public');
-                        Log::info("Path: " . $path);
                         $variantData[$index]['images'][$imageIndex] = $path;
                     }
                 } else {
@@ -106,19 +124,29 @@ class NewProduct extends Component
                 $variantData[$index]['sub_variants'][$subIndex]['sku'] = $color . "-" . $subVariant['size'] . "-" . $this->product_id;
             }
         }
+
         $this->variants = $variantData;
-        Log::info('Product Data:', [
-            'product_id' => $this->product_id,
+  
+        $productData = [
+            'product_id' => (int)$this->product_id,
             'name' => $this->name,
             'description' => $this->description,
             'category' => $this->category,
             'brand' => $this->brand,
             'thumbnail_image' => $this->thumbnail_image,
-            'base_price' => $this->base_price,
+            'base_price' => (float)$this->base_price,
             'variants' => $this->variants,
-            'tags' => explode(',', $this->tags),
+            'tags' => $this->tags ? explode(',', $this->tags) : [],
             'is_active' => $this->is_active,
-        ]);
+        ];
+
+        $product = Product::updateOrCreate(
+            ['product_id' => (int)$this->product_id],
+            $productData
+        );
+
+        $this->reset(['product_id', 'name', 'description', 'category', 'brand', 'thumbnail_image', 'base_price', 'variants', 'tags']);
+        session()->flash('message', 'Product saved successfully!');
     }
 
 }
