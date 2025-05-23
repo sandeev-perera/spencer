@@ -12,20 +12,19 @@ class Product extends Model
 
     protected $casts = [
         'product_id' => 'integer',
-        'variants' => 'array',
-        'tags' => 'array',
         'is_active' => 'boolean',
         'base_price' => 'float',
         'thumbnail_image' => 'string'
     ];
 
-    public function setVariantsAttribute($value)
-    {
-        $this->attributes['variants'] = is_array($value) ? $value : json_decode($value, true);
-    }
+//     public function setVariantsAttribute($value)
+// {
+//     $this->attributes['variants'] = is_string($value) ? json_decode($value, true) : $value;
+// }
 
-        public function setTagsAttribute($value)
-    {
-        $this->attributes['tags'] = is_array($value) ? $value : json_decode($value, true);
-    }
+// public function setTagsAttribute($value)
+// {
+//     $this->attributes['tags'] = is_string($value) ? json_decode($value, true) : $value;
+// }
+
 }

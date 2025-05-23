@@ -85,12 +85,12 @@ class NewProduct extends Component
             'description' => 'nullable|string',
             'category' => 'required|string|max:255',
             'brand' => 'required|string|max:50|',
-            'thumbnail_image' => 'nullable|image|max:1024',
+            'thumbnail_image' => 'image|max:1024',
             'base_price' => 'required|numeric|min:0',
             'variants.*.color' => 'required',
             'variants.*.images' => 'array',
-            'variants.*.images.*' => 'nullable|image|max:1024',
-            'variants.*.sub_variants.*.size' => 'nullable|string',
+            'variants.*.images.*' => 'image|max:1024',
+            'variants.*.sub_variants.*.size' => 'string',
             'variants.*.sub_variants.*.stock_quantity' => 'nullable|numeric',
             'tags' => 'nullable|string',
             'is_active' => 'boolean',
@@ -146,7 +146,6 @@ class NewProduct extends Component
         );
 
         $this->reset(['product_id', 'name', 'description', 'category', 'brand', 'thumbnail_image', 'base_price', 'variants', 'tags']);
-        session()->flash('message', 'Product saved successfully!');
     }
 
 }

@@ -124,10 +124,7 @@
                                     <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
                                 @enderror
                             </div>
-                            {{-- <div>
-                                <label for="sku_{{ $index }}_{{ $subIndex }}" class="block text-sm text-gray-700">SKU</label>
-                                <input type="text" id="sku_{{ $index }}_{{ $subIndex }}" wire:model="variants.{{ $index }}.sub_variants.{{ $subIndex }}.sku" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500" required>
-                            </div> --}}
+
                             <div>
                                 <button type="button" wire:click="removeSubVariant({{ $index }}, {{ $subIndex }})" class="bg-red-500 text-white px-2 py-1 rounded-lg mt-6">Remove Sub Variant</button>
                             </div>
