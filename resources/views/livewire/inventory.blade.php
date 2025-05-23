@@ -60,7 +60,6 @@
     </table>
 </div>
 
-
     <!-- Pagination -->
     <div class="mt-4">
         {{ $products->links() }}

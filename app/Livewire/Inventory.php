@@ -32,6 +32,7 @@ class Inventory extends Component
     public function render()
     {
         if(!empty($this->search)){
+            Log::info("Search Runs");
             $products = Product::query()
         ->where(function ($query) {
             $query->where('name', 'like', "%{$this->search}%")
@@ -42,6 +43,7 @@ class Inventory extends Component
         ->paginate(10);
         }
         else{
+            Log::info("This Runs normal");
             $products = Product::select(['product_id', 'name', 'base_price', 'category', 'variants', 'brand'])->paginate(10);
         }
         
