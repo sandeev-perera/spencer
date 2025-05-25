@@ -33,37 +33,40 @@
             <!-- Right Section: Cart and Profile Icons -->
             <div class="flex items-center space-x-6 justify-center">
                 <!-- Cart Icon -->
-                 <?php if(isset($_SESSION["SignedIn"]) && isset($_SESSION['Role']) && $_SESSION['Role']==="Customer"): ?>
-                 <a href="../pages/usercart.php" class="relative hover:text-gray-400">
+                @if(Auth::check() && Auth::user()->role === "customer")
+                 <a href="{{route('show.Cart')}}" class="relative hover:text-gray-400">
                     <img src="{{url('images/icons/cartIcon.png')}}" class="h-6 w-6">
                 </a>
-                <?php elseif(isset($_SESSION["SignedIn"]) && isset($_SESSION['Role']) && $_SESSION['Role']==="Admin"):?>
-                    <a href="../pages/AdminDashboard.php" class="relative hover:text-gray-400">
-                    <img src="{{url('images/icons/admindashboardicon.png')}}" class="h-6 w-6">
-                </a>
-
-                 <?php endif; ?>
-
+                @endif
                 <!-- Profile Icon -->
                 <div class="relative">
                     <button onclick="toggleDropdown()" class="focus:outline-none">
                         <img src="{{url('images/icons/icons8-male-user-64.png')}}" class="h-6 w-6">
                     </button>
                     <!-- Dropdown Menu -->
-                    <?php if(isset($_SESSION["SignedIn"])): ?>
-                        <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg z-50">
-                            <a href="../pages/userprofile.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">My Profile</a>
-                            <button onclick="confirmLogout()" class="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 ">
-                                Logout
-                            </button>            
-                        </div>
-                    <?php else:?>
-                        <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg z-50">
-                            <button onclick="window.location.href='SignIn.php';" class="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                LogIn
-                            </button>            
-                        </div>
-                    <?php endif; ?>
+                    <?php if(Auth::check()): ?>
+    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg z-50">
+        <!-- Link to profile edit page -->
+        <a href="<?= route('profile.edit') ?>" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+            My Profile
+        </a>
+
+        <!-- Logout form -->
+        <form method="POST" action="<?= route('logout') ?>">
+            <?= csrf_field() ?>
+            <button type="submit" class="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">
+                Logout
+            </button>
+        </form>
+    </div>
+<?php else: ?>
+    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg z-50">
+        <button onclick="window.location.href='<?= route('login') ?>';" class="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">
+            Log In
+        </button>
+    </div>
+<?php endif; ?>
+
                 </div>
             </div>
         </div>
@@ -78,11 +81,7 @@
         }
 
         // Confirm Logout
-        function confirmLogout() {
-            if (confirm('Are you sure you want to log out?')) {
-                window.location.href = '../pages/logout.php';
-            }
-        }
+        
 
         // Close the dropdown when clicking outside
         document.addEventListener('click', function(event) {

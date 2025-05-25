@@ -20,6 +20,6 @@ class AdminDashboard extends Component
     {
         $title= $this->selectedSection;
         Log::info($this->selectedSection);
-        return view('livewire.admin-dashboard', ["selectedSection"=> $this->selectedSection,'title' => $title === 'Overview' ? 'Dashboard' : $title,]);
+        return view('livewire.admin-dashboard', ["selectedSection"=> $this->selectedSection,'title' => $title === 'Overview' ? 'Dashboard' : $title]);
     }
 }

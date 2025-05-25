@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class NewProduct extends Component
@@ -122,6 +123,7 @@ class NewProduct extends Component
             //Generate SKU for each subVariant
             foreach ($variant['sub_variants'] as $subIndex => $subVariant) {
                 $variantData[$index]['sub_variants'][$subIndex]['sku'] = $color . "-" . $subVariant['size'] . "-" . $this->product_id;
+                $variantData[$index]['sub_variants'][$subIndex]['stock_quantity'] = isset($subVariant['stock_quantity']) ? (int)$subVariant['stock_quantity'] : 0;
             }
         }
 
@@ -144,6 +146,10 @@ class NewProduct extends Component
             ['product_id' => (int)$this->product_id],
             $productData
         );
+
+        if($product){
+            session()->flash("message", "Product Added Successfully");
+        }
 
         $this->reset(['product_id', 'name', 'description', 'category', 'brand', 'thumbnail_image', 'base_price', 'variants', 'tags']);
     }
