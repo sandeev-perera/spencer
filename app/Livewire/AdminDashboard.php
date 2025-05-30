@@ -11,7 +11,6 @@ class AdminDashboard extends Component
 
     public function setSection($selectedSection){
         $this->selectedSection = $selectedSection;
-        Log::info("This Runs ". $this->selectedSection);
 
 
     }
@@ -19,7 +18,6 @@ class AdminDashboard extends Component
     public function render()
     {
         $title= $this->selectedSection;
-        Log::info($this->selectedSection);
         return view('livewire.admin-dashboard', ["selectedSection"=> $this->selectedSection,'title' => $title === 'Overview' ? 'Dashboard' : $title]);
     }
 }

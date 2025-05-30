@@ -35,7 +35,7 @@
             <h1 class="text-7xl text-black opacity-0 animate-fade-up">OWN THE</h1>
             <h1 class="text-7xl opacity-0 animate-fade-up delay-300">SPORT</h1>
 
-            <a href="{{ route('products', ['category' => 'products']) }}"
+            <a href="{{ route('products') }}"
                 class="mt-4 px-8 py-4 bg-black text-white font-semibold rounded-lg shadow-md hover:bg-white text-2xl hover:text-black transition duration-700">
                 SHOP NOW
             </a>

@@ -1,8 +1,8 @@
 @section('title', )
 
-<div class="bg-blue-50 min-h-screen max-w-screen overflow-x-hidden overflow-y-auto">
+<div class="min-h-screen max-w-screen overflow-x-hidden overflow-y-auto">
 
-    <div class="bg-white shadow-md rounded-lg p-6 max-w-[95vw] m-auto overflow-x-hidden">
+    <div class="bg-white p-6 min-w-screen m-auto overflow-x-hidden">
         <div class="flex gap-8">
             <div class="flex-1 w-1/2">
                 <div class="bg-gray-100 rounded-lg p-4 flex justify-center items-center">
@@ -73,12 +73,17 @@
                         ADD TO CART
                     </button>
                 </div>
-
-                <p class="text-red-500 font-semibold">⚠ You must be logged in as our customer to maintain a cart.</p>
-                <a href="SignIn.php" class="text-blue-500 underline">Log in here</a>
-
             </div>
         </div>
+        @if($product->description)
+        <div class="mt-6 p-6 rounded-lg border border-gray-200">
+            <h1 class="text-2xl font-bold text-gray-900 mb-4">{{ $product->name }}</h1>
+            <p class="text-gray-700 text-base leading-relaxed">
+                {{ $product->description }}
+            </p>
+        </div>
+        @endif
+        
     </div>
 
 

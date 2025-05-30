@@ -4,10 +4,10 @@ namespace App\Models;
 
 use MongoDB\Laravel\Eloquent\Model;
 
-class Cart extends Model
+class Order extends Model
 {
     protected $connection = 'mongodb';
-    protected $collection = "cart";
+    protected $collection = "order";
     protected $guarded = [];
         protected $casts = [
         'user_id' => "string",

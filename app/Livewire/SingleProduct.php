@@ -25,9 +25,9 @@ class SingleProduct extends Component
     public $selectedColor;
     public $product;
 
+
     public function mount($id)
     {
-        Log::info($id);
         $this->product = Product::where("product_id", (int) $id)->firstOrFail();
         $this->image = $this->product["thumbnail_image"];
 
