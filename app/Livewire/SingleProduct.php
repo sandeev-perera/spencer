@@ -58,6 +58,12 @@ class SingleProduct extends Component
             return;
         }
 
+        else if(Auth::user()->role !=="customer"){
+            $this->message = "Please Login as a customer maintain a cart";
+            $this->messageColor = "bg-red-100 text-red-700";
+            return;
+        }
+
         if (!$this->selectedColor || !$this->selectedSize) {
             $this->message = 'Please select both a color and a size.';
             $this->messageColor = 'bg-red-100 text-red-700';

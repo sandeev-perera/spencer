@@ -112,7 +112,7 @@
                         <div class="grid grid-cols-4 gap-4 mb-2 items-center">
                             <div>
                                 <label for="size_{{ $index }}_{{ $subIndex }}" class="block text-sm text-gray-700">Size</label>
-                                <input type="text" id="size_{{ $index }}_{{ $subIndex }}" wire:model="variants.{{ $index }}.sub_variants.{{ $subIndex }}.size" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500" required>
+                                <input type="text" id="size_{{ $index }}_{{ $subIndex }}" wire:model="variants.{{ $index }}.sub_variants.{{ $subIndex }}.size" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500" required placeholder="S/M/L">
                                 @error('variants.' . $index . '.sub_variants.' . $subIndex . '.size')
                                     <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
                                 @enderror

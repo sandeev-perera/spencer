@@ -38,6 +38,14 @@
                     <img src="{{url('images/icons/cartIcon.png')}}" class="h-6 w-6">
                 </a>
                 @endif
+
+                @if(Auth::check() && Auth::user()->role === "admin")
+                 <a href="{{route('show.adminDashboard')}}" class="relative hover:text-gray-400">
+                    <img src="{{url('images/icons/admindashboardicon.png')}}" class="h-6 w-6">
+                </a>
+                @endif
+
+
                 <!-- Profile Icon -->
                 <div class="relative">
                     <button onclick="toggleDropdown()" class="focus:outline-none">
@@ -57,7 +65,6 @@
             Profile Settings
         </a>
         @endif
-
         <!-- Logout form -->
         <form method="POST" action="<?= route('logout') ?>">
             <?= csrf_field() ?>

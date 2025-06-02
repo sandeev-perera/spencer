@@ -18,6 +18,5 @@ class CustomerProfileController extends Controller
         $orders = Order::where('user_id', $userId)->orderBy('created_at', "desc")->paginate(5);
         Log::info($orders);
         return view('customer-profile', compact("orders"));
-
     }
 }
