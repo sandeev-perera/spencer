@@ -7,7 +7,7 @@ use Livewire\Component;
 class Products extends Component
 {
     public $category = "products";
-    public $availableTags = ['top-seller', 'new-arriavel', 'sports', 'lightweight', 'featured'];
+    public $availableTags = ['top-seller', 'new-arrival', 'sports', 'lightweight', 'featured'];
     public $availableBrands = ['Puma', "Nike", "Polo"];
     public $selectedBrands = [];
     public $selectedTags = [];

@@ -16,7 +16,7 @@
                     @php session()->forget('message'); @endphp
                 @endif
 
-
+                @if ($cart['cart_items'])
                 @forelse($cart['cart_items'] as $index => $item)
                     <div class="cart-item flex items-center justify-between border-b pb-4 mb-4">
                         <div class="flex items-center space-x-4">
@@ -55,6 +55,9 @@
                 @empty
                     <p>Your cart is empty</p>
                 @endforelse
+                    
+                @endif
+                
             </div>
             @if($cart['cart_items'])
             <!-- Cart Summary -->

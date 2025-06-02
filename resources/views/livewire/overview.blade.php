@@ -18,28 +18,28 @@
     </div> --}}
 
     <!-- Stats -->
-    <div class="grid grid-cols-4 gap-6 mb-6">
+    <div class="grid grid-cols-3 gap-6 mb-6">
         <div class="bg-white p-6 rounded-lg shadow">
             <div class="text-sm text-gray-500">Total Revenue</div>
-            <div class="text-2xl font-semibold">$82,650</div>
+            <div class="text-2xl font-semibold">${{number_format($revenue, 0)}}</div>
         </div>
         <div class="bg-white p-6 rounded-lg shadow">
             <div class="text-sm text-gray-500">Total Order</div>
-            <div class="text-2xl font-semibold">1645</div>
+            <div class="text-2xl font-semibold">{{$orders}}</div>
 
         </div>
         <div class="bg-white p-6 rounded-lg shadow">
-            <div class="text-sm text-gray-500">Total Customer</div>
-            <div class="text-2xl font-semibold">1,462</div>
-            
+            <div class="text-sm text-gray-500">Total Customers</div>
+            <div class="text-2xl font-semibold">{{$totalcustomers}}</div>
         </div>
+
         <div class="bg-white p-6 rounded-lg shadow">
-            <div class="text-sm text-gray-500">Pending Delivery</div>
-            <div class="text-2xl font-semibold">117</div>
-        </div>
+            <div class="text-sm text-gray-500">Active Products</div>
+            <div class="text-2xl font-semibold">{{$products}}</div>
+        </div>   
     </div>
 
-    <!-- Top Selling Products and Current Offer -->
+    {{-- <!-- Top Selling Products and Current Offer -->
     <div class="grid grid-cols-2 gap-6">
         <div class="bg-white p-6 rounded-lg shadow">
             <div class="flex justify-between items-center mb-4">
@@ -117,7 +117,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
     
 @endif

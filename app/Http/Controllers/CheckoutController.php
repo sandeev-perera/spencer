@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,7 @@ class CheckoutController extends Controller
             return back()->withErrors(['cart' => 'Your cart is empty']);
         }
 
+        $full_price = 0;
         foreach ($userCart->cart_items as $item) {
             $productDetails = explode("-", $item['sku']);
             $productID = $productDetails[2];
@@ -45,7 +47,7 @@ class CheckoutController extends Controller
             if (!$product) {
                 return back()->withErrors(['product' => "Product with ID {$productID} not found."]);
             }
-
+            $price = $product['base_price'];
             $foundStock = null;
             foreach ($product->variants as $variant) {
                 if (isset($variant['sub_variants'])) {
@@ -67,20 +69,18 @@ class CheckoutController extends Controller
                     'stock' => "Insufficient stock for SKU {$item['sku']}. Available: {$foundStock}, Requested: {$item['quantity']}"
                 ]);
             }
+            $full_price += ($item['quantity'] * $price);
         }
 
-        // 2. Wrap stock deduction and order/payment creation in a transaction (MongoDB >= 4.0 and replica set required)
         DB::beginTransaction();
 
         try {
-            // 3. Deduct stock quantities
             foreach ($userCart->cart_items as $item) {
                 $productDetails = explode("-", $item['sku']);
                 $productID = $productDetails[2];
 
                 $product = Product::where('product_id', (int)$productID)->where('is_active', true)->first();
 
-                // Update subvariant stock quantity
                 $variants = $product->variants;
 
                 foreach ($variants as $variantIndex => $variant) {
@@ -98,11 +98,13 @@ class CheckoutController extends Controller
                     }
                 }
             }
-
+            
             // 4. Create Order
             $order = Order::create([
                 'user_id' => $userId,
+                'name' => $data['first_name']." ".$data['last_name'],
                 'products' => $userCart->cart_items,
+                'full_price' => (float)$full_price,
                 'phone' => $data['phone'],
                 'address' => $data['address'],
                 'city' => $data['city'],
@@ -110,13 +112,15 @@ class CheckoutController extends Controller
             ]);
 
             // 5. Create Payment linked to Order
-            // Payment::create([
-            //     'payment_date' => now(),
-            //     'billing_address' => $data['address'] . ', ' . $data['city'] . ', ' . $data['district'],
-            //     'payment_method' => 'card',
-            //     'status' => 'completed',
-            //     'cardholder_name' => $data['cardholder_name'],
-            // ]);
+            Payment::create([
+                'customer_id' => (string)Auth::id(),
+                'order_id' => (string)$order->id,
+                'payment_date' => now(),
+                'billing_address' => $data['address'] . ', ' . $data['city'] . ', ' . $data['district'],
+                'payment_method' => 'card',
+                'status' => 'completed',
+                'cardholder_name' => $data['cardholder_name'],
+            ]);
 
             DB::commit();
 

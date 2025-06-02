@@ -11,8 +11,6 @@ class AdminDashboard extends Component
 
     public function setSection($selectedSection){
         $this->selectedSection = $selectedSection;
-
-
     }
 
     public function render()

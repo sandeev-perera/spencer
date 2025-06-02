@@ -18,6 +18,9 @@ class NewProduct extends Component
         'white - WHT' => 'WHT',
         'black - BLK' => 'BLK',
         'green - GRN' => 'GRN',
+        'red - RED' => "RED",
+        'blue - BLU' => "BLU",
+        'ash - ASH' => "ASH"
     ];
 
     public $product_id;
@@ -86,11 +89,11 @@ class NewProduct extends Component
             'description' => 'nullable|string',
             'category' => 'required|string|max:255',
             'brand' => 'required|string|max:50|',
-            'thumbnail_image' => 'image|max:1024',
+            'thumbnail_image' => 'file|max:1024|mimes:jpeg,jpg,png',
             'base_price' => 'required|numeric|min:0',
             'variants.*.color' => 'required',
             'variants.*.images' => 'array',
-            'variants.*.images.*' => 'image|max:1024',
+            'variants.*.images.*' => 'file|max:1024|mimes:jpeg,jpg,png',
             'variants.*.sub_variants.*.size' => 'string',
             'variants.*.sub_variants.*.stock_quantity' => 'nullable|numeric',
             'tags' => 'nullable|string',
@@ -126,9 +129,7 @@ class NewProduct extends Component
                 $variantData[$index]['sub_variants'][$subIndex]['stock_quantity'] = isset($subVariant['stock_quantity']) ? (int)$subVariant['stock_quantity'] : 0;
             }
         }
-
         $this->variants = $variantData;
-  
         $productData = [
             'product_id' => (int)$this->product_id,
             'name' => $this->name,

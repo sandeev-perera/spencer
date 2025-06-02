@@ -21,10 +21,9 @@
 
         <!-- Buttons -->
         <div class="mt-6 flex justify-center gap-4">
-            <a href="userprofile.php" class="border-2 border-gray-900 px-6 py-2 rounded-md text-gray-700 hover:bg-gray-200 transition">View My Orders</a>
+            <a href="{{route('show.customer.profile')}}" class="border-2 border-gray-900 px-6 py-2 rounded-md text-gray-700 hover:bg-gray-200 transition">View My Orders</a>
             <a href="{{url('/')}}" class="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 transition">Continue Shopping</a>
         </div>
     </div>
-
 </body>
 </html>

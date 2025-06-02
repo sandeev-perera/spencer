@@ -4,14 +4,6 @@
         <aside class="w-full lg:w-1/6 p-6 bg-white border-b lg:border-b-0 lg:border-r">
             <h2 class="font-bold text-lg mb-4">Brands</h2>
             
-            <!-- Debug section to display selected brands -->
-            {{-- <div class="mb-4 p-2 bg-gray-100 rounded">
-                <p class="font-semibold">Selected brands:</p>
-                @foreach ($selectedBrands as $b)
-                    <p class="text-sm">{{$b}}</p>
-                @endforeach
-            </div> --}}
-
             @foreach($availableBrands as $brand)
                 <div class="mb-2">
                     <label class="inline-flex items-center">
@@ -28,17 +20,6 @@
                     <label class="inline-flex items-center">
                         <input type="checkbox" wire:model.live="selectedTags" value="{{ $tag }}" class="form-checkbox text-indigo-600">
                         <span class="ml-2 text-gray-700">{{ ucfirst($tag) }}</span>
-                    </label>
-                </div>
-            @endforeach
-
-            <h2 class="font-bold text-lg mt-6 mb-4">Price Range</h2>
-            @foreach(['100-1000','1000-5000', '5000-10000', '10000+'] as $mem)
-                <div class="mb-2">
-                    <label class="inline-flex items-center">
-                        <!-- Just keep these disconnected for now until we fix selectedBrands -->
-                        <input type="checkbox" value="{{ $mem }}" class="form-checkbox text-indigo-600">
-                        <span class="ml-2 text-gray-700">{{ $mem }}</span>
                     </label>
                 </div>
             @endforeach

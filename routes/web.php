@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CustomerProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\AdminDashboard;
 use App\Livewire\Cart;
@@ -24,6 +25,8 @@ Route::middleware('check.customer')->group(function(){
     Route::post("/confirmCheckout", [CheckoutController::class, 'checkout'])->name('Confirm.checkout');
     Route::get('/cart', Cart::class)->name('show.Cart');
     Route::view('/ordercomplete', 'payment-complete')->name('show.order.complete');
+    Route::get('/customerprofile', [CustomerProfileController::class, 'show'])->name('show.customer.profile');
+
 });
 
 Route::middleware('auth')->group(function () {

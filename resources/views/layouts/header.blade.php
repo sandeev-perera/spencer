@@ -47,9 +47,16 @@
                     <?php if(Auth::check()): ?>
     <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg z-50">
         <!-- Link to profile edit page -->
-        <a href="<?= route('profile.edit') ?>" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+        
+        @if(Auth::user()->role === "customer")
+        <a href="<?= route('show.customer.profile') ?>" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
             My Profile
         </a>
+
+        <a href="<?= route('profile.edit') ?>" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+            Profile Settings
+        </a>
+        @endif
 
         <!-- Logout form -->
         <form method="POST" action="<?= route('logout') ?>">
